@@ -7,6 +7,8 @@ use std::io::Read;
 use chess_pgn_parser::{GameTermination, MoveNumber, NAG};
 use chess_pgn_parser::GameTermination::*;
 use chess_pgn_parser::AnnotationSymbol::*;
+use chess_pgn_parser::Piece::*;
+use chess_pgn_parser::Move::*;
 
 fn get_sample_path(filename: &str) -> PathBuf {
     let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -77,4 +79,28 @@ fn euwe_alekhine() {
     let black21 = &game.moves[41];
 
     assert_eq!(black21.move_.annotation_symbol, Some(Good));
+}
+
+#[test]
+fn cutechess() {
+    //Sample produced by cutechess log
+    let text = read_sample("results.pgn");
+
+    let games = chess_pgn_parser::read_games(&text).unwrap();
+    assert_eq!(games.len(), 1);
+
+    let game = &games[0];
+    let white58 = &game.moves[114];
+
+    match white58.move_.move_ {
+        BasicMove{
+            piece: _,
+            to: _,
+            from: _,
+            is_capture: _,
+            ref promoted_to } => {
+            assert_eq!(promoted_to.clone(), Some(Queen))
+        },
+        _ => { assert!(false) }
+    }
 }

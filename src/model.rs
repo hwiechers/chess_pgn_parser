@@ -102,6 +102,7 @@ pub enum Move {
         to: Square,
         from: Square,
         is_capture: bool,
+        promoted_to: Option<Piece>
     },
     CastleKingside,
     CastleQueenside,
@@ -124,6 +125,7 @@ impl Move {
             to: to,
             from: Square::XX,
             is_capture: false,
+            promoted_to: None,
         }
     }
 
@@ -134,11 +136,13 @@ impl Move {
                 ref to,
                 from: _,
                 is_capture,
+                ref promoted_to,
                 } => Move::BasicMove {
                     piece: piece.clone(),
                     to: to.clone(),
                     from: square,
                     is_capture: is_capture,
+                    promoted_to: promoted_to.clone(),
                 },
             _ => { self.clone() }
         }
@@ -151,11 +155,32 @@ impl Move {
                 ref to,
                 ref from,
                 is_capture: _,
+                promoted_to,
                 } => Move::BasicMove {
                     piece: piece.clone(),
                     to: to.clone(),
                     from: from.clone(),
                     is_capture: true,
+                    promoted_to: promoted_to,
+                },
+            _ => { self.clone() }
+        }
+    }
+
+    pub fn with_promotion(&self, piece: Piece) -> Move {
+        match *self  {
+            Move::BasicMove {
+                piece: ref piece_,
+                ref to,
+                ref from,
+                is_capture,
+                promoted_to: _,
+                } => Move::BasicMove {
+                    piece: piece_.clone(),
+                    to: to.clone(),
+                    from: from.clone(),
+                    is_capture: is_capture,
+                    promoted_to: Some(piece),
                 },
             _ => { self.clone() }
         }
@@ -367,6 +392,7 @@ mod tests {
                 to: A2,
                 from: XX,
                 is_capture: false,
+                promoted_to: None,
             }
         );
     }
@@ -380,6 +406,21 @@ mod tests {
                 to: A2,
                 from: B1,
                 is_capture: false,
+                promoted_to: None,
+            }
+        );
+    }
+
+    #[test]
+    fn move_with_promotion() {
+        assert_eq!(
+            Move::new(Pawn, H8).with_promotion(Queen),
+            BasicMove {
+                piece: Pawn,
+                to: H8,
+                from: XX,
+                is_capture: false,
+                promoted_to: Some(Queen),
             }
         );
     }

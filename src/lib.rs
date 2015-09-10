@@ -174,15 +174,17 @@ rule!(move_disambiguation:Square =
         => { from });
 
 rule!(basic_move:Move =
-      piece:piece?
+      piece_:piece?
       from:move_disambiguation?
       capture_mark: ["x"]?
       to: square
+      promoted_to: (["="] piece_:piece => { piece_ })?
       => { Move::BasicMove {
-            piece: piece.unwrap_or(Piece::Pawn),
+            piece: piece_.unwrap_or(Piece::Pawn),
             to: to,
             from: from.unwrap_or(Square::XX),
-            is_capture: capture_mark.is_some()
+            is_capture: capture_mark.is_some(),
+            promoted_to: promoted_to,
          }});
 
 rule!(annotation_symbol:AnnotationSymbol =
@@ -401,6 +403,8 @@ mod tests {
         assert_eq!(run(basic_move, "R2h4"), Move::new(Rook, H4).from(X2));
         assert_eq!(run(basic_move, "Qa1d4"), Move::new(Queen, D4).from(A1));
         assert_eq!(run(basic_move, "Nxc5"), Move::new(Knight, C5).capture());
+        assert_eq!(run(basic_move, "h8=Q"),
+                   Move::new(Pawn, H8).with_promotion(Queen));
     }
 
     #[test]
