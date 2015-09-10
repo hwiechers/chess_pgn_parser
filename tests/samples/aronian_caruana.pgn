@@ -1,0 +1,18 @@
+[Event "3rd Sinquefield Cup "]
+[Site "Saint Louis USA"]
+[Date "2015.08.23"]
+[Round "1"]
+[White "Aronian, Levon"]
+[Black "Caruana, Fabiano"]
+[Result "1-0"]
+[ECO "D37"]
+[WhiteElo "2765"]
+[BlackElo "2808"]
+[Annotator "GM Lubomir Kavalek/The Huffington Post"]
+[SetUp "1"]
+[FEN "2bqr3/2p3kp/1pP5/r2Ppnp1/p1B5/P7/1PRNQ1PP/4R1K1 w - - 0 25"]
+[PlyCount "29"]
+[EventDate "2015.08.23"]
+
+25. Ne4 $3 {With the last move, Aronian elevates the game to please the romantic fans - a rare occurence in today's top chess. Caruana is invited to take material.} Nd4 {Caruana already made some concesions and misplayed the middle game. He accepts the challenge.} 26. Qh5 Nxc2 (26... Bf5 27. Rf2 $1) 27. Nxg5 Bf5 28. Rf1 $1 {Threatening to eliminate the main defender, the bishop on f5.} (28. Qf7+ $6 Kh6 $1) 28... Qf6 ({After} 28... Bg6 29. Rf7+ Bxf7 (29... Kg8 30. Qh6 {wins.}) 30. Qxh7+ Kf6 31. Ne4+ Ke7 32. d6+ {followed by 33.Qxf7+ and White mates soon.}) 29. Ne6+ ({It was also possible to win with} 29. Rxf5 Qg6 ( 29... Qxf5 30. Ne6+ Rxe6 (30... Kf6 31. Qxe8 {wins.}) 31. Qxf5 {wins.}) 30. Rf7+ Kg8 31. Qh3 {threatening to win with 32.d6 or 32.Bd3.}) 29... Rxe6 30. Rxf5 Qg6 31. dxe6 (31. Rg5 {is stronger, but it really doesn't matter: Black is lost.}) 31... Qxh5 32. Rxh5 Nd4 33. e7 Ra8 34. Rxe5 Re8 35. Re4 Nf5 { Allowing a little combination.} 36. Be6 Nd6 37. Bd7 Nxe4 38. Bxe8 Kf6 39. Bg6 $1 {White wins a piece.} 1-0
+

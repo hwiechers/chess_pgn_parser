@@ -1,0 +1,9 @@
+[package]
+name = "chess_pgn_parser"
+version = "0.1.0"
+authors = ["Henri Wiechers <henri@wiechers.me>"]
+
+[dependencies]
+peggler="*"
+enum_primitive = "*"
+num = "*"

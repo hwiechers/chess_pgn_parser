@@ -1,0 +1,90 @@
+[Event "World Championship 16th"]
+[Site "Netherlands"]
+[Date "1935.11.16"]
+[Round "20"]
+[White "Euwe, Max"]
+[Black "Alekhine, Alexander"]
+[Result "1-0"]
+[ECO "D17"]
+[Annotator "User,New"]
+[Plycount "81"]
+[Eventdate "1935.10.03"]
+[Eventtype "match"]
+[Eventrounds "30"]
+[Eventcountry "NED"]
+
+1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4 Bf5 { If the Orthodox Queen's
+Gambit was the opening of the Alekhine-Capablanca match, the Slav Defense -
+and this line in particular - was the opening of the Euwe-Alekhine match. } 6.Ne5 Nbd7 7.Nxc4 Qc7 8.g3 e5 9.dxe5 Nxe5 10.Bf4 Nfd7 { This is still topical
+theory today, and can be found in the games by the top grandmasters. } 11.Bg2 f6 { Later the move 11...g5 was introduced (at the top level) by Alexander
+Morozevich. Now it is more common than 11...f6. } ( 11...g5 12.Ne3 gxf4 13.Nxf5 O-O-O 14.Qc2 ) 12.O-O Rd8 { Alekhine does not want to castle queenside,
+since he will be facing some pressure there (e.g. a4-a5-a6). However, today
+this is how they play it. } 13.Qc1 { The queen steps off the d-file. } 13...Qb8 { In
+the very next game of the match this position was reached, with the players on
+the other side! Here Euwe chose 13... Be6, and Alekhine's 14.Nxe5 Nxe5 15.a5
+a6 16.Ne4 Bb4 allowed Black to equalize, and eventually win the game. } 14.Ne4 Be7 15.Qc3 O-O 16.Rad1 { White has obtained a pleasantly slightly better
+position, with more active pieces and a sounder pawn structure. It seems
+difficult for Black to avoid this outcome in this line, which is probably why
+most top players now prefer 11...g5; although as I do not play this with
+either color I am hardly an expert. } 16...Be6 17.Nxe5 Nxe5 { It appears that Black
+should prefer 17...fxe5, with a somewhat worse position, in view of what
+happens. } 18.Ng5! { Using tactics, Euwe gets either the better pawn
+structure or the two bishops. } 18...fxg5 { Black has little choice, since 18...Bf7
+19.Nxf7 Rxf7 20.Qb3 is very unpleasant. } ( 18...Bf7 19.Nxf7 Rxf7 20.Qb3 ) 19.Bxe5 Bf6 { The only move - otherwise the queen and g7 are both hanging. } 20.Bxb8 Bxc3 21.Bd6 { For the moment it looks like White wins material, since he
+is attacking the rook on f8 while the black bishop on c3 remains en prise. But
+in a few moves everything will be clarified. } 21...Rf7! 22.bxc3 Rfd7 { Black
+regains the piece. } 23.Rb1! { White wins a pawn in return for the bishop. } 23...Rxd6 24.Rxb7 R8d7 25.Rxd7 Bxd7 { The dust has settled - White is up a pawn,
+with seemingly the better pawn structure. However, the black rook is more
+active and both black pieces will soon be attacking White's a4 and c3 pawns.
+In fact, with the idea of ...c5 and ...Ra6, along with the possibility of ...
+Rd2, Black has a good chance to win back the pawn. Meanwhile, the doubled
+black g-pawns actually help to restrain White's kingside pawns. So Black does
+have some chance of defense, and only with subtle play was Euwe able to win. } 26.Be4 { This was going to be necessary at some point; White could not afford
+in any case to abandon the 1st rank with his rook before this, since it would
+allow ...Rd1+ Bf1 Bh3. From e4 the bishop also gains the possibility to defend
+e2 by Bd3, while also keeps h7 under fire. } 26...c5 { Black opens the attack on a4
+by the bishop while also opening the way for ...Ra6 at some moment. } 27.c4! { This is a significant move. White does not attempt to passively defend the
+a-pawn, but will instead give it back under the right circumstances, catching
+Black in a painful pin. In the meantime he creates a support point for the
+bishop on d5. As is often the case, material can be converted into activity
+and one must not cling desperately to one's gains. } 27...Bxa4? { I suspect that
+Euwe was happy to see this move. As White did on the previous move, Alekhine
+should be looking for activity with 27...Rd2. } ( 27...Rd2 28.Bd5+ Kf8 29.Rb1 { 29.e4 Bxa4 30.Ra1 is now met by 30. ..Rd1+. } 29...Rxe2 30.Rb7 Re1+! { Cleverly,
+Black first forces the king to g2, where it will be vulnerable to discovered
+attack/checks by ...Bh3+. } 31.Kg2 Re7 { Thanks to inserting 30...Re1+, White
+cannot capture the a7-pawn. } 32.a5 { Euwe gave this line. White keeps a large
+advantage, perhaps enough to win, but faces many more decisions than in the
+game. The superior activity of the pieces - especially the dangerous a-pawn -
+underlines the white advantage. Additionally, the black c-pawn can come under
+attack at some moment. } ) 28.Bd5+ Kf8 29.Ra1 { Black cannot afford to give up
+the a-pawn - the extra pawn with the more active pieces gives White an easy
+win. } 29...Ra6 { Alekhine was relying on this move. Did he perhaps overlook Euwe's
+next, powerful move? } 30.Ra2!! { This little move is a perfect example of
+prophylactic thinking - preventing the opponent's ideas. Black wanted to break
+the pin on the a-file and offer a trade of rooks by ...Bb5, so Euwe prevented
+it by placing the rook on the a2-square. Now ...Bb5 will never be possible,
+since it can be met by cxb5, defending the rook by the bishop. I doubt
+Alekhine expected anything but this move by this point (strong players will
+see 30.Ra2 very quickly), but it is believable that he missed it when playing
+27...Bxa4. } ( 30.e4 { Routine play such as this would allow Black to save the
+game. } 30...Bb5! ) 30...Ke7 31.f4 { Now Euwe begins to advance the center pawns,
+and also clears a way for the king to enter the game. } 31...gxf4 32.gxf4 Kf6 33.e4 g5 { The only hope to create complications. Otherwise, Black will quickly fall
+into Zugzwang, since moving either his rook or bishop lose material. } 34.f5 { Euwe's position is easily won, and this is not the only way. 34.fxg5+ seems
+simple as well. } ( 34.fxg5+ Kxg5 35.e5 h6 36.e6 Kf6 37.Kf2 Ke7 38.Kg3 Kf6 39.Kf4 { Black is falling into Zugzwang. Eventually ...Ra5 will become
+necessary. } 39...Ra5 { after which } 40.Bc6 { wins. } ) 34...h5 35.h4! { Punching a
+hole in the black pawns. If he allowed the pawn to get to h4 then things could
+get more complicated, since going to white squares like f3 or g4 would be met
+by ...Bd1+. } 35...gxh4 { 35...g4 would create a protected passed pawn, but would be
+hopeless, since the white king would reach f4 and the connected passed pawns
+would advance. } ( 35...g4 36.Kf2 Ke5 37.Kg3 { Black is in Zugzwang - if the
+king moves, then Kf4 followed by e5 follows. } ) 36.Kh2 Kg5 37.Kh3 Ra5 { If the
+king retreats, then White just takes the h-pawn and then brings the king to g5
+with the help of Zugzwang, followed soon after by f5-f6. } 38.Bb7 { Euwe of
+course does not rush to reap the harvest - 38.Bc6 would be a grave mistake,
+allowing Black to remove most of the white pawns in return for the exchange. } ( 38.Bc6 Bxc6 39.Rxa5 Bxe4 { The f5 pawn is going as well, and White should not
+be able to win. } ) 38...Kf6 39.Bd5 { After a repetition, Euwe reaches move
+forty and demonstrates the hopelessness of Alekhine's position. } 39...Kg5 40.Bb7 Kf6 41.Bc8 { Both black pieces are comically tied up on the a-file, while if
+41...Kg5 then 42.e5 follows; and otherwise 41...Ke5 42.Kxh4 is hopeless - with
+the help of Zugzwang White will push through the passed pawns; he also has Bd7
+available at the right moment. So Alekhine resigned. } 
+1-0
