@@ -93,6 +93,10 @@ fn block_comment_contents(input: &str) -> ParseResult<String> {
 pub fn read_games(input: &str) -> Result<Vec<Game>, ParseError> {
     let mut games : Vec<Game> = vec![];
     let mut rest = &input[..];
+
+    let result = read_zero_or_more(&rest, |char| { char.is_whitespace() });
+    rest = result.unwrap().1;
+
     loop {
         let item = try!(game(rest));
         games.push(item.0);
@@ -579,6 +583,13 @@ mod tests {
     fn test_read_games()
     {
         let result = read_games("1. e4 e5 * 1. d4 d5 *").unwrap();
+        assert_eq!(result.len(), 2);
+    }
+
+    #[test]
+    fn test_read_games_with_leading_whitespace()
+    {
+        let result = read_games(" 1. e4 e5 * 1. d4 d5 *").unwrap();
         assert_eq!(result.len(), 2);
     }
 }
