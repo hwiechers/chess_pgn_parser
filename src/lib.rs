@@ -17,7 +17,7 @@ use peggler::{ParseError, ParseResult};
 fn read_zero_or_more<F>(input: &str, predicate : F) -> ParseResult<&str>
     where F : Fn(char) -> bool {
 
-    let mut end;
+    let end;
 
     let mut char_indices = input.char_indices();
     loop {
