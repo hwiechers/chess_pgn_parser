@@ -94,9 +94,9 @@ pub fn read_games(input: &str) -> Result<Vec<Game>, ParseError> {
     let mut games : Vec<Game> = vec![];
     let mut rest = &input[..];
     loop {
-        let foo = try!(game(rest));
-        games.push(foo.0);
-        rest = foo.1;
+        let item = try!(game(rest));
+        games.push(item.0);
+        rest = item.1;
 
         if rest.len() == 0 {
             break;
