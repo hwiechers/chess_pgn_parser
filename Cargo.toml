@@ -12,7 +12,7 @@ keywords = ["chess", "pgn", "parser"]
 
 license = "MIT"
 
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Henri Wiechers <henri@wiechers.me>"]
 
 [dependencies]
