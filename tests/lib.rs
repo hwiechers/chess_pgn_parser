@@ -1,6 +1,6 @@
 extern crate chess_pgn_parser;
 
-use std::path::{PathBuf};
+use std::path::PathBuf;
 use std::fs::File;
 use std::io::Read;
 
@@ -40,14 +40,19 @@ fn philidor() {
     let games = result.ok().unwrap();
     assert_eq!(games.len(), 6);
 
-    let results: Vec<GameTermination> =
-        games.iter()
-             .map(|game| { game.termination })
-             .collect();
+    let results: Vec<GameTermination> = games.iter().map(|game| game.termination).collect();
 
-    assert_eq!(results, vec![
-                WhiteWins, BlackWins, BlackWins,
-                DrawnGame, WhiteWins, BlackWins]);
+    assert_eq!(
+        results,
+        vec![
+            WhiteWins,
+            BlackWins,
+            BlackWins,
+            DrawnGame,
+            WhiteWins,
+            BlackWins,
+        ]
+    );
 }
 
 #[test]
@@ -93,14 +98,13 @@ fn cutechess() {
     let white58 = &game.moves[114];
 
     match white58.move_.move_ {
-        BasicMove{
+        BasicMove {
             piece: _,
             to: _,
             from: _,
             is_capture: _,
-            ref promoted_to } => {
-            assert_eq!(promoted_to.clone(), Some(Queen))
-        },
-        _ => { assert!(false) }
+            ref promoted_to,
+        } => assert_eq!(promoted_to.clone(), Some(Queen)),
+        _ => assert!(false),
     }
 }

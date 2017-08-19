@@ -46,15 +46,15 @@ enum_from_primitive! {
 }
 
 impl Square {
-    pub fn new(file : Option<File>, rank : Option<Rank>) -> Square {
+    pub fn new(file: Option<File>, rank: Option<Rank>) -> Square {
         let f = match file {
             Some(value) => value as u32,
-            None => 8
+            None => 8,
         };
 
         let r = match rank {
             Some(value) => value as u32,
-            None => 8
+            None => 8,
         };
 
         Square::new_u32(f, r)
@@ -72,7 +72,7 @@ impl Square {
         Square::new_u32(8, rank as u32)
     }
 
-    fn new_u32(file : u32, rank : u32) -> Square {
+    fn new_u32(file: u32, rank: u32) -> Square {
         Square::from_u32(9 * file + rank).unwrap()
     }
 
@@ -98,11 +98,11 @@ pub enum Piece {
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub enum Move {
     BasicMove {
-        piece : Piece,
+        piece: Piece,
         to: Square,
         from: Square,
         is_capture: bool,
-        promoted_to: Option<Piece>
+        promoted_to: Option<Piece>,
     },
     CastleKingside,
     CastleQueenside,
@@ -119,7 +119,7 @@ pub enum AnnotationSymbol {
 }
 
 impl Move {
-    pub fn new(piece : Piece, to: Square) -> Move {
+    pub fn new(piece: Piece, to: Square) -> Move {
         Move::BasicMove {
             piece: piece,
             to: to,
@@ -137,52 +137,52 @@ impl Move {
                 from: _,
                 is_capture,
                 ref promoted_to,
-                } => Move::BasicMove {
-                    piece: piece.clone(),
-                    to: to.clone(),
-                    from: square,
-                    is_capture: is_capture,
-                    promoted_to: promoted_to.clone(),
-                },
-            _ => { self.clone() }
+            } => Move::BasicMove {
+                piece: piece.clone(),
+                to: to.clone(),
+                from: square,
+                is_capture: is_capture,
+                promoted_to: promoted_to.clone(),
+            },
+            _ => self.clone(),
         }
     }
 
     pub fn capture(&self) -> Move {
-        match *self  {
+        match *self {
             Move::BasicMove {
                 ref piece,
                 ref to,
                 ref from,
                 is_capture: _,
                 promoted_to,
-                } => Move::BasicMove {
-                    piece: piece.clone(),
-                    to: to.clone(),
-                    from: from.clone(),
-                    is_capture: true,
-                    promoted_to: promoted_to,
-                },
-            _ => { self.clone() }
+            } => Move::BasicMove {
+                piece: piece.clone(),
+                to: to.clone(),
+                from: from.clone(),
+                is_capture: true,
+                promoted_to: promoted_to,
+            },
+            _ => self.clone(),
         }
     }
 
     pub fn with_promotion(&self, piece: Piece) -> Move {
-        match *self  {
+        match *self {
             Move::BasicMove {
                 piece: ref piece_,
                 ref to,
                 ref from,
                 is_capture,
                 promoted_to: _,
-                } => Move::BasicMove {
-                    piece: piece_.clone(),
-                    to: to.clone(),
-                    from: from.clone(),
-                    is_capture: is_capture,
-                    promoted_to: Some(piece),
-                },
-            _ => { self.clone() }
+            } => Move::BasicMove {
+                piece: piece_.clone(),
+                to: to.clone(),
+                from: from.clone(),
+                is_capture: is_capture,
+                promoted_to: Some(piece),
+            },
+            _ => self.clone(),
         }
     }
 
@@ -288,8 +288,7 @@ impl GameMove {
         }
     }
 
-    pub fn with_variations(&self, variations : Vec<MoveSequence>)
-            -> GameMove {
+    pub fn with_variations(&self, variations: Vec<MoveSequence>) -> GameMove {
         GameMove {
             number: self.number.clone(),
             move_: self.move_.clone(),
@@ -525,24 +524,32 @@ mod tests {
 
         let game_move = GameMove {
             number: Some(White(1)),
-            move_:  marked_move.clone(),
+            move_: marked_move.clone(),
             nag: Some(NAG(1)),
             comment: Some("Comment".to_string()),
             variations: vec![],
         };
 
-        let alternative = Move::new(Queen, A1)
-                              .no_mark()
-                              .numbered(Some(White(1)));
+        let alternative = Move::new(Queen, A1).no_mark().numbered(Some(White(1)));
 
         assert_eq!(
-            game_move.with_variations(vec![MoveSequence { comment: None, moves: vec![alternative.clone()], }]),
+            game_move.with_variations(vec![
+                MoveSequence {
+                    comment: None,
+                    moves: vec![alternative.clone()],
+                },
+            ]),
             GameMove {
-                number : Some(White(1)),
-                move_:  marked_move.clone(),
+                number: Some(White(1)),
+                move_: marked_move.clone(),
                 nag: Some(NAG(1)),
                 comment: Some("Comment".to_string()),
-                variations: vec![MoveSequence { comment: None, moves: vec![alternative.clone()], }]
+                variations: vec![
+                    MoveSequence {
+                        comment: None,
+                        moves: vec![alternative.clone()],
+                    },
+                ],
             }
         );
     }

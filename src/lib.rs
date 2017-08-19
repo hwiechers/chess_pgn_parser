@@ -7,28 +7,30 @@ extern crate num;
 
 mod model;
 
-pub use model::{NAG, GameMove, GameTermination, MoveNumber, MoveSequence,
-    Piece, File, Rank, Square, Move, MarkedMove, Game, AnnotationSymbol};
+pub use model::{NAG, GameMove, GameTermination, MoveNumber, MoveSequence, Piece, File, Rank,
+                Square, Move, MarkedMove, Game, AnnotationSymbol};
 
 use model::GameTermination::{WhiteWins, BlackWins, DrawnGame, Unknown};
 
 use peggler::{ParseError, ParseResult};
 
-fn read_zero_or_more<F>(input: &str, predicate : F) -> ParseResult<&str>
-    where F : Fn(char) -> bool {
+fn read_zero_or_more<F>(input: &str, predicate: F) -> ParseResult<&str>
+where
+    F: Fn(char) -> bool,
+{
 
     let end;
 
     let mut char_indices = input.char_indices();
     loop {
         match char_indices.next() {
-            Some((index, char)) =>  {
+            Some((index, char)) => {
                 if predicate(char) {
                     continue;
                 }
                 end = index;
                 break;
-            },
+            }
 
             None => {
                 end = input.len();
@@ -40,8 +42,10 @@ fn read_zero_or_more<F>(input: &str, predicate : F) -> ParseResult<&str>
     Ok((&input[..end], &input[end..]))
 }
 
-fn read_one_or_more<F>(input: &str, predicate : F) -> ParseResult<&str>
-    where F : Fn(char) -> bool {
+fn read_one_or_more<F>(input: &str, predicate: F) -> ParseResult<&str>
+where
+    F: Fn(char) -> bool,
+{
 
     let result = read_zero_or_more(input, predicate);
 
@@ -55,46 +59,44 @@ fn read_one_or_more<F>(input: &str, predicate : F) -> ParseResult<&str>
 fn any_char(input: &str) -> ParseResult<char> {
     let mut char_indices = input.char_indices();
     match char_indices.next() {
-        Some((_, char)) => match char_indices.next() {
-            Some((index, _)) => Ok((char, &input[index..])),
-            None => Ok((char, &""[..])),
-        },
+        Some((_, char)) => {
+            match char_indices.next() {
+                Some((index, _)) => Ok((char, &input[index..])),
+                None => Ok((char, &""[..])),
+            }
+        }
         None => Err(ParseError),
     }
 }
 
 fn pgn_integer(input: &str) -> ParseResult<u32> {
-    read_one_or_more(input, |char| { char.is_digit(10) })
-        .map(|r| (r.0.parse::<u32>().unwrap(), r.1))
+    read_one_or_more(input, |char| char.is_digit(10)).map(|r| (r.0.parse::<u32>().unwrap(), r.1))
 }
 
 fn pgn_symbol(input: &str) -> ParseResult<String> {
     read_one_or_more(
         input,
-        |char| { char.is_alphanumeric() || "_+#=:".contains(char) })
-        .map(|r| (r.0.to_string(), r.1))
+        |char| char.is_alphanumeric() || "_+#=:".contains(char),
+    ).map(|r| (r.0.to_string(), r.1))
 }
 
-fn whitespace(input: &str) -> ParseResult<()>{
-    read_one_or_more(input, |char| { char.is_whitespace() })
-        .map(|r| ((), r.1))
+fn whitespace(input: &str) -> ParseResult<()> {
+    read_one_or_more(input, |char| char.is_whitespace()).map(|r| ((), r.1))
 }
 
 fn inline_comment_contents(input: &str) -> ParseResult<String> {
-    read_zero_or_more(input, |char| { char != '\r' && char != '\n' })
-        .map(|r| (r.0.to_string(), r.1))
+    read_zero_or_more(input, |char| char != '\r' && char != '\n').map(|r| (r.0.to_string(), r.1))
 }
 
 fn block_comment_contents(input: &str) -> ParseResult<String> {
-    read_zero_or_more(input, |char| { char != '}' })
-        .map(|r| (r.0.to_string(), r.1))
+    read_zero_or_more(input, |char| char != '}').map(|r| (r.0.to_string(), r.1))
 }
 
 pub fn read_games(input: &str) -> Result<Vec<Game>, ParseError> {
-    let mut games : Vec<Game> = vec![];
+    let mut games: Vec<Game> = vec![];
     let mut rest = &input[..];
 
-    let result = read_zero_or_more(&rest, |char| { char.is_whitespace() });
+    let result = read_zero_or_more(&rest, |char| char.is_whitespace());
     rest = result.unwrap().1;
 
     loop {
@@ -225,7 +227,7 @@ rule!(block_comment:String =
       ["{"] value:block_comment_contents ["}"]
       => { value });
 
-rule!(comment:String = inline_comment / block_comment);
+rule!(comment: String = inline_comment / block_comment);
 
 rule!(move_number_ws:MoveNumber = x:move_number whitespace? => { x });
 rule!(marked_move_ws:MarkedMove = x:marked_move whitespace? => { x });
@@ -272,11 +274,10 @@ rule!(game:Game =
 
 #[cfg(test)]
 mod tests {
-    use super::{pgn_integer, pgn_string, pgn_symbol, read_one_or_more,
-                tag_pair, tag_section, whitespace, game_termination,
-                move_number, move_disambiguation, file, rank, piece, square,
-                basic_move, marked_move, nag, line_end, inline_comment,
-                block_comment, game_move, move_sequence, game, read_games};
+    use super::{pgn_integer, pgn_string, pgn_symbol, read_one_or_more, tag_pair, tag_section,
+                whitespace, game_termination, move_number, move_disambiguation, file, rank, piece,
+                square, basic_move, marked_move, nag, line_end, inline_comment, block_comment,
+                game_move, move_sequence, game, read_games};
 
     use model::{Move, MoveNumber, MoveSequence, NAG};
     use model::File::*;
@@ -291,8 +292,9 @@ mod tests {
     use peggler::{ParseResult, ParseError};
 
 
-    fn run<P, T>(parser:P, input:&str) -> T
-        where P:Fn(&str) -> ParseResult<T>
+    fn run<P, T>(parser: P, input: &str) -> T
+    where
+        P: Fn(&str) -> ParseResult<T>,
     {
         let result = parser(input).unwrap();
         assert_eq!(result.1, "");
@@ -301,9 +303,7 @@ mod tests {
 
     #[test]
     fn test_read_one_or_more() {
-        assert_eq!(
-            read_one_or_more("abc", |char| { char == 'a' }),
-            Ok(("a", "bc")));
+        assert_eq!(read_one_or_more("abc", |char| char == 'a'), Ok(("a", "bc")));
     }
 
     #[test]
@@ -335,9 +335,10 @@ mod tests {
 
     #[test]
     fn test_tag_pair() {
-        assert_eq!(
-            run(tag_pair, "[Name \"Value\"]"),
-            ("Name".to_string(), "Value".to_string()));
+        assert_eq!(run(tag_pair, "[Name \"Value\"]"), (
+            "Name".to_string(),
+            "Value".to_string(),
+        ));
     }
 
     #[test]
@@ -346,7 +347,8 @@ mod tests {
                      [Site \"Belgrade, Serbia JUG\"]";
         let expected = vec![
             ("Event".to_string(), "F/S Return Match".to_string()),
-            ("Site".to_string(), "Belgrade, Serbia JUG".to_string())];
+            ("Site".to_string(), "Belgrade, Serbia JUG".to_string()),
+        ];
         assert_eq!(run(tag_section, input), expected);
     }
 
@@ -407,8 +409,10 @@ mod tests {
         assert_eq!(run(basic_move, "R2h4"), Move::new(Rook, H4).from(X2));
         assert_eq!(run(basic_move, "Qa1d4"), Move::new(Queen, D4).from(A1));
         assert_eq!(run(basic_move, "Nxc5"), Move::new(Knight, C5).capture());
-        assert_eq!(run(basic_move, "h8=Q"),
-                   Move::new(Pawn, H8).with_promotion(Queen));
+        assert_eq!(
+            run(basic_move, "h8=Q"),
+            Move::new(Pawn, H8).with_promotion(Queen)
+        );
     }
 
     #[test]
@@ -420,8 +424,10 @@ mod tests {
         assert_eq!(run(marked_move, "O-O-O"), CastleQueenside.no_mark());
         assert_eq!(run(marked_move, "O-O+"), CastleKingside.check());
         assert_eq!(run(marked_move, "O-O-O#"), CastleQueenside.checkmate());
-        assert_eq!(run(marked_move, "a3!!"),
-                   Move::new(Pawn, A3).no_mark().annotated(Brilliant));
+        assert_eq!(
+            run(marked_move, "a3!!"),
+            Move::new(Pawn, A3).no_mark().annotated(Brilliant)
+        );
     }
 
     #[test]
@@ -446,22 +452,28 @@ mod tests {
     fn test_game_move() {
         assert_eq!(
             run(game_move, "Kh2"),
-            Move::new(King, H2).no_mark().numbered(None));
+            Move::new(King, H2).no_mark().numbered(None)
+        );
 
         assert_eq!(
             run(game_move, "1. Bb2 {+0.51/15 0.21s}"),
             Move::new(Bishop, B2)
                 .no_mark()
                 .numbered(Some(White(1)))
-                .comment("+0.51/15 0.21s".to_string()));
+                .comment("+0.51/15 0.21s".to_string())
+        );
 
         assert_eq!(
             run(game_move, "1... e4"),
-            Move::new(Pawn, E4).no_mark().numbered(Some(Black(1))));
+            Move::new(Pawn, E4).no_mark().numbered(Some(Black(1)))
+        );
 
         assert_eq!(
             run(game_move, "10. O-O $12"),
-            CastleKingside.no_mark().numbered(Some(White(10))).nag(NAG(12)));
+            CastleKingside.no_mark().numbered(Some(White(10))).nag(
+                NAG(12),
+            )
+        );
     }
 
     #[test]
@@ -470,8 +482,9 @@ mod tests {
             run(move_sequence, "10. O-O"),
             MoveSequence {
                 comment: None,
-                moves: vec![CastleKingside.no_mark().numbered(Some(White(10)))]
-            });
+                moves: vec![CastleKingside.no_mark().numbered(Some(White(10)))],
+            }
+        );
 
         assert_eq!(
             run(move_sequence, "10. O-O O-O-O"),
@@ -479,9 +492,10 @@ mod tests {
                 comment: None,
                 moves: vec![
                     CastleKingside.no_mark().numbered(Some(White(10))),
-                     CastleQueenside.no_mark().numbered(None)
-                ]
-            });
+                    CastleQueenside.no_mark().numbered(None),
+                ],
+            }
+        );
     }
 
     #[test]
@@ -491,16 +505,12 @@ mod tests {
             Move::new(Bishop, C4)
                 .no_mark()
                 .numbered(Some(White(4)))
-                .with_variations(
-                    vec![MoveSequence {
+                .with_variations(vec![
+                    MoveSequence {
                         comment: None,
-                        moves: vec![
-                           Move::new(Bishop, B5)
-                               .no_mark()
-                               .numbered(Some(White(4))),
-                        ]
-                    }]
-                )
+                        moves: vec![Move::new(Bishop, B5).no_mark().numbered(Some(White(4)))],
+                    },
+                ])
         );
 
         assert_eq!(
@@ -508,23 +518,16 @@ mod tests {
             Move::new(Bishop, C4)
                 .no_mark()
                 .numbered(Some(White(4)))
-                .with_variations(
-                    vec![
-                        MoveSequence {
-                            comment: None,
-                            moves: vec![
-                               Move::new(Bishop, B5)
-                                   .no_mark()
-                                   .numbered(Some(White(4))),
-                            ]},
-                        MoveSequence {
-                            comment: None,
-                            moves: vec![
-                               Move::new(King, H2)
-                                   .no_mark()
-                                   .numbered(Some(White(4))),
-                            ]},
-                    ])
+                .with_variations(vec![
+                    MoveSequence {
+                        comment: None,
+                        moves: vec![Move::new(Bishop, B5).no_mark().numbered(Some(White(4)))],
+                    },
+                    MoveSequence {
+                        comment: None,
+                        moves: vec![Move::new(King, H2).no_mark().numbered(Some(White(4)))],
+                    },
+                ])
         );
 
         assert_eq!(
@@ -532,23 +535,25 @@ mod tests {
             Move::new(Bishop, C4)
                 .no_mark()
                 .numbered(Some(White(4)))
-                .with_variations( vec![
+                .with_variations(vec![
                     MoveSequence {
                         comment: None,
                         moves: vec![
-                           Move::new(Bishop, B5)
-                               .no_mark()
-                               .numbered(Some(White(4)))
-                               .with_variations(vec![
-                                   MoveSequence {
-                                       comment: None,
-                                       moves: vec![
-                                           Move::new(King, H2)
-                                               .no_mark()
-                                               .numbered(Some(White(4))),
+                            Move::new(Bishop, B5)
+                                .no_mark()
+                                .numbered(Some(White(4)))
+                                .with_variations(vec![
+                                    MoveSequence {
+                                        comment: None,
+                                        moves: vec![
+                                            Move::new(King, H2).no_mark().numbered(
+                                                Some(White(4))
+                                            ),
                                         ],
-                               }])
-                        ]}
+                                    },
+                                ]),
+                        ],
+                    },
                 ])
         );
     }
@@ -558,7 +563,7 @@ mod tests {
         //Game taken from http://www.chess.com/download/view/1001-chess-miniatures
 
         let result = game(
-              "[Event \"Croatia\"]\n\
+            "[Event \"Croatia\"]\n\
                [Site \"?\"]\n\
                [Date \"2004.??.??\"]\n\
                [Round \"?\"]\n\
@@ -569,26 +574,25 @@ mod tests {
                [PlyCount \"10\"]\n\
                \n\
                1. e4 c5 2. c4 Nc6 3. Ne2 Ne5 4. d4 (4. Ng3) 4... Qa5+ 5. \
-               Bd2 $4 (5. Nec3) 5... Nd3# 0-1");
+               Bd2 $4 (5. Nec3) 5... Nd3# 0-1",
+        );
 
         match result {
             Ok((game, _)) => {
                 assert_eq!(game.termination, BlackWins);
-            },
+            }
             _ => assert!(false),
         }
     }
 
     #[test]
-    fn test_read_games()
-    {
+    fn test_read_games() {
         let result = read_games("1. e4 e5 * 1. d4 d5 *").unwrap();
         assert_eq!(result.len(), 2);
     }
 
     #[test]
-    fn test_read_games_with_leading_whitespace()
-    {
+    fn test_read_games_with_leading_whitespace() {
         let result = read_games(" 1. e4 e5 * 1. d4 d5 *").unwrap();
         assert_eq!(result.len(), 2);
     }
