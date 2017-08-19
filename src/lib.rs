@@ -112,6 +112,27 @@ pub fn read_games(input: &str) -> Result<Vec<Game>, ParseError> {
     Ok(games)
 }
 
+pub fn read_games_2(input: &str) -> Result<Vec<(Game, &str)>, ParseError> {
+    let mut games: Vec<(Game, &str)> = vec![];
+    let mut rest = &input[..];
+
+    let result = read_zero_or_more(&rest, |char| char.is_whitespace());
+    rest = result.unwrap().1;
+
+    loop {
+        let old_rest = rest;
+        let item = try!(game(rest));
+        rest = item.1;
+        games.push((item.0, &old_rest[0..old_rest.len() - rest.len()]));
+
+        if rest.len() == 0 {
+            break;
+        }
+    }
+
+    Ok(games)
+}
+
 rule!(pgn_string_char:char =
       ["\\\""] => { '\"' } /
       ["\\\\"] => { '\\' } /
@@ -277,7 +298,7 @@ mod tests {
     use super::{pgn_integer, pgn_string, pgn_symbol, read_one_or_more, tag_pair, tag_section,
                 whitespace, game_termination, move_number, move_disambiguation, file, rank, piece,
                 square, basic_move, marked_move, nag, line_end, inline_comment, block_comment,
-                game_move, move_sequence, game, read_games};
+                game_move, move_sequence, game, read_games, read_games_2};
 
     use model::{Move, MoveNumber, MoveSequence, NAG};
     use model::File::*;
@@ -589,6 +610,13 @@ mod tests {
     fn test_read_games() {
         let result = read_games("1. e4 e5 * 1. d4 d5 *").unwrap();
         assert_eq!(result.len(), 2);
+    }
+
+    #[test]
+    fn test_read_games_2() {
+        let result = read_games_2("1. e4 e5 * 1. d4 d5 *").unwrap();
+        assert_eq!(result.len(), 2);
+        assert_eq!(result[1].1, "1. d4 d5 *");
     }
 
     #[test]
