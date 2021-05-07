@@ -76,11 +76,55 @@ impl Square {
         Square::from_u32(9 * file + rank).unwrap()
     }
 
-    pub fn file(self: &Square) -> Option<File> {
+    fn new_with_name(name: &str) -> Square {
+        if name.chars().count() != 2 {
+            panic!("Square name should have 2 characters")
+        }
+
+        let file_char_value = name.chars().nth(0).unwrap() as u32;
+        let base_char_value = 'a' as u32;
+        let file = file_char_value - base_char_value;
+        assert!(file < 9);
+        let rank = name.chars().nth(1).unwrap().to_digit(10).unwrap() as u32 - 1;
+        Square::new_u32(file, rank)
+    }
+
+    pub fn new_with_offset(&self, file_offset: i32, rank_offset: i32) -> Option<Square> {
+        if let Some(file) = self.file_with_offset(file_offset) {
+            if let Some(rank) = self.rank_with_offset(rank_offset) {
+                return Some(Self::new_known(file, rank));
+            }
+        }
+        None
+    }
+
+    pub fn file(&self) -> Option<File> {
         File::from_u32(self.clone() as u32 / 9)
     }
 
-    pub fn rank(self: &Square) -> Option<Rank> {
+    fn file_with_offset(&self, offset: i32) -> Option<File> {
+        let new_offset = 9 * offset + self.clone() as i32;
+        if let Some(square) = Square::from_u32(new_offset as u32) {
+            return square.file();
+        }
+        None        
+    }
+
+    fn rank_with_offset(&self, offset: i32) -> Option<Rank> {
+        if let Some(curr_file) = self.file() {
+            let new_offset = offset + self.clone() as i32;
+            if let Some(new_square) = Square::from_u32(new_offset as u32) {
+                if let Some(new_file) = new_square.file() {
+                    if new_file == curr_file {
+                        return new_square.rank();
+                    } 
+                }
+            }
+        }
+        None 
+    }
+
+    pub fn rank(&self) -> Option<Rank> {
         Rank::from_u32(self.clone() as u32 % 9)
     }
 }
@@ -381,6 +425,45 @@ mod tests {
         assert_eq!(HX.rank(), None);
     }
 
+    #[test]
+    fn square_new_with_name() {
+        assert_eq!(Square::new(Some(A), Some(R1)), Square::new_with_name("a1"));
+        assert_eq!(Square::new(Some(A), Some(R8)), Square::new_with_name("a8"));
+        assert_eq!(Square::new(Some(H), Some(R8)), Square::new_with_name("h8"));
+        assert_eq!(Square::new(Some(H), Some(R1)), Square::new_with_name("h1"));
+    }
+
+    #[test]
+    fn square_new_with_offset() {
+        let square = Square::new(Some(B), Some(R2));
+        assert_eq!(Square::new(Some(B), Some(R3)), square.new_with_offset(0, 1).unwrap());
+        assert_eq!(Square::new(Some(C), Some(R2)), square.new_with_offset(1, 0).unwrap());
+        assert_eq!(Square::new(Some(B), Some(R1)), square.new_with_offset(0, -1).unwrap());
+        assert_eq!(Square::new(Some(A), Some(R2)), square.new_with_offset(-1, 0).unwrap());
+
+        assert!(square.new_with_offset(-2, 0).is_none());
+        assert!(square.new_with_offset(7, 0).is_none());
+        assert!(square.new_with_offset(0, -2).is_none());
+        assert!(square.new_with_offset(0, 7).is_none());
+    }
+
+    #[test]
+    fn square_file_with_offset() {
+        let square = Square::new(Some(B), Some(R2));
+        assert_eq!(C, square.file_with_offset(1).unwrap());
+        assert_eq!(A, square.file_with_offset(-1).unwrap());
+        assert!(square.file_with_offset(-2).is_none());
+        assert!(square.file_with_offset(7).is_none());
+    }
+
+    #[test]
+    fn square_rank_with_offset() {
+        let square = Square::new(Some(B), Some(R2));
+        assert_eq!(R3, square.rank_with_offset(1).unwrap());
+        assert_eq!(R1, square.rank_with_offset(-1).unwrap());
+        assert!(square.rank_with_offset(-2).is_none());
+        assert!(square.rank_with_offset(7).is_none());
+    }
 
     #[test]
     fn move_new() {

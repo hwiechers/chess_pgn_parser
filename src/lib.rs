@@ -1,5 +1,5 @@
 #[macro_use]
-extern crate peggler;
+pub extern crate peggler;
 
 #[macro_use]
 extern crate enum_primitive;
