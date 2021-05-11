@@ -112,6 +112,10 @@ pub fn read_games(input: &str) -> Result<Vec<Game>, ParseError> {
     Ok(games)
 }
 
+pub fn parse_moves(input: &str) -> Result<MoveSequence, ParseError> {
+    move_sequence(input).map(|r|r.0)
+}
+
 rule!(pgn_string_char:char =
       ["\\\""] => { '\"' } /
       ["\\\\"] => { '\\' } /
@@ -277,7 +281,7 @@ mod tests {
     use super::{pgn_integer, pgn_string, pgn_symbol, read_one_or_more, tag_pair, tag_section,
                 whitespace, game_termination, move_number, move_disambiguation, file, rank, piece,
                 square, basic_move, marked_move, nag, line_end, inline_comment, block_comment,
-                game_move, move_sequence, game, read_games};
+                game_move, move_sequence, game, read_games, parse_moves};
 
     use model::{Move, MoveNumber, MoveSequence, NAG};
     use model::File::*;
@@ -494,6 +498,20 @@ mod tests {
                     CastleKingside.no_mark().numbered(Some(White(10))),
                     CastleQueenside.no_mark().numbered(None),
                 ],
+            }
+        );
+    }
+
+    #[test]
+    fn test_parse_moves() {
+        assert_eq!(
+            parse_moves("1. e4 c5").unwrap(),
+            MoveSequence {
+                comment: None,
+                moves: vec![
+                    Move::new(Pawn, E4).no_mark().numbered(Some(White(1))),
+                    Move::new(Pawn, C5).no_mark().numbered(None),
+                ]
             }
         );
     }
