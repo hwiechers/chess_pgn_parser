@@ -517,6 +517,33 @@ mod tests {
     }
 
     #[test]
+    fn test_complex_parse_moves() {
+        assert_eq!(
+            // parse_moves("1. d4 Nf6 2. Bf4 Nc6 3. e3 d5 4. Nf3 Bf5 5. Nbd2 e6 6. c3 Bd6 7. Bg5 h6 8. Bh4 g5 9. Bg3 Ne4 10. Nxe4 Bxe4").unwrap(),
+            parse_moves("1. d4 Nf6 2. Bf4 Nc6 3. e3 d5 4. Nf3 Bf5 5. Nbd2 e6 6. c3 Bd6 7. Bg5 h6").unwrap(),
+            MoveSequence {
+                comment: None,
+                moves: vec![
+                    Move::new(Pawn, D4).no_mark().numbered(Some(White(1))),
+                    Move::new(Knight, F6).no_mark().numbered(None),
+                    Move::new(Bishop, F4).no_mark().numbered(Some(White(2))),
+                    Move::new(Knight, C6).no_mark().numbered(None),
+                    Move::new(Pawn, E3).no_mark().numbered(Some(White(3))),
+                    Move::new(Pawn, D5).no_mark().numbered(None),
+                    Move::new(Knight, F3).no_mark().numbered(Some(White(4))),
+                    Move::new(Bishop, F5).no_mark().numbered(None),
+                    Move::new(Knight, D2).from(BX).no_mark().numbered(Some(White(5))),
+                    Move::new(Pawn, E6).no_mark().numbered(None),
+                    Move::new(Pawn, C3).no_mark().numbered(Some(White(6))),
+                    Move::new(Bishop, D6).no_mark().numbered(None),
+                    Move::new(Bishop, G5).no_mark().numbered(Some(White(7))),
+                    Move::new(Pawn, H6).no_mark().numbered(None),
+                ]
+            }
+        );
+    }
+
+    #[test]
     fn test_game_move_with_variations() {
         assert_eq!(
             run(game_move, "4. Bc4 (4. Bb5)"),

@@ -127,6 +127,14 @@ impl Square {
     pub fn rank(&self) -> Option<Rank> {
         Rank::from_u32(self.clone() as u32 % 9)
     }
+
+    pub fn get_known(&self) -> Option<Self> {
+        if self.rank().is_some() && self.file().is_some() {
+            Some(self.clone())
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(PartialEq, Eq, Debug, Copy, Clone)]
