@@ -31,7 +31,7 @@ enum_from_primitive! {
 enum_from_primitive! {
     //Unknowns are represented as X
     //e.g BX means B file and unknown rank
-    #[derive(PartialEq, Eq, Debug, Clone)]
+    #[derive(PartialEq, Eq, Debug, Clone, Hash)]
     pub enum Square {
         A1, A2, A3, A4, A5, A6, A7, A8, AX,
         B1, B2, B3, B4, B5, B6, B7, B8, BX,
