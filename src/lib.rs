@@ -1,5 +1,5 @@
 #[macro_use]
-extern crate peggler;
+pub extern crate peggler;
 
 #[macro_use]
 extern crate enum_primitive;
@@ -110,6 +110,10 @@ pub fn read_games(input: &str) -> Result<Vec<Game>, ParseError> {
     }
 
     Ok(games)
+}
+
+pub fn parse_move_sequence(input: &str) -> Result<MoveSequence, ParseError> {
+    move_sequence(input).map(|r|r.0)
 }
 
 rule!(pgn_string_char:char =
